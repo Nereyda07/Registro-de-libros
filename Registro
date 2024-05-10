@@ -1,0 +1,200 @@
+//Realizar un programa que permita alquilar libros y llevar un registros de estos libros.
+//Paquete del código
+package PObjeto;
+//Importación para escribir en archivos
+import java.io.FileWriter;
+//Importación de clase base para excepciones 
+import java.io.IOException;
+//Importación que permite organizar la información digitalizada
+import java.util.Scanner;
+//Clase principal
+public class Princial
+{
+	//Argumentos de la línea de comandos
+	public static void main(String[] args)
+	{
+		//Se crea una instancia de la clase Scanner que permite leer datos por teclado
+		Scanner input = new Scanner(System.in);
+		//Declaracion de variables de tipo entero
+		int option, idNum, date, month, years;
+		//Declaracion de variables de tipo cadena
+		String nameBook, name, lastName;
+		//Bucle que se repite miestras la opcion ingresada sea diferente de 2
+		do
+		{
+			//Menu de opciones
+			System.out.println("LIBRERIA");
+			System.out.println(" ");
+			System.out.println("------------ MENU ------------");
+			System.out.println(" ");
+			System.out.println("1. Realizar el registro de un libro");
+			System.out.println("2. Salir");
+			System.out.println("Ingrese la opcion que desea realizar (1-2)");
+			//Validacion para permitir el ingreso de solo numeros
+			while (!input.hasNextInt()) 
+			{
+				//Mensaje de error
+				System.out.println("La opcion ingresada es incorrecta ");
+				System.out.println("Ingrese el numero 1 o 2");
+				//Limpia el buffer
+				input.next();
+            }
+			//Permite ingresar informacion por teclado
+			option = input.nextInt();
+			//Permite manejar las opciones del menu
+			switch (option)
+			{
+			case 1:
+				System.out.println("Ingrese el nombre y autor del libro que desea llevar");
+				input.nextLine();
+				//Permite ingresar el nombre del libro
+				nameBook = input.nextLine();
+				System.out.println("Ingrese su nombre");
+				//Permite ingresar el nombre del usuario
+				name = input.nextLine();
+				//Validacion para controlar el ingreso de solo letras
+				while (!name.matches("[a-zA-Z]+")) 
+				{
+                    //Mensaje de error
+					System.out.println("Incorrecto, solo puede ingresar letras");
+                    //Vuelve a solicitar el ingreso del nombre de usuario
+                    name = input.nextLine();
+                }
+				System.out.println("Ingrese su apellido");
+				//Permite ingresar el apellido del usuario
+				lastName = input.nextLine();
+				//Validacion para controlar el ingreso de solo letras
+				while (!name.matches("[a-zA-Z]+")) 
+				{
+					//Mensaje de error
+                    System.out.println("Incorrecto, solo puede ingresar letras");
+                    //Vuelve a solicitar el ingreso del apellido de usuario
+                    lastName = input.nextLine();
+                }
+				System.out.println("Ingrese su numero de cedula");
+				//Validacion para permitir el ingreso de solo numeros y que sea de 10 digitos
+				while (!input.hasNext("[0-9]{10}"))
+				{
+                    //Mensaje de error
+					System.out.println("Incorrecto, ingrese un numero de cedula con 10 digitos");
+                    // Limpia el buffer
+                    input.next();
+                }
+				//Convecion a entero
+                idNum = Integer.parseInt(input.next());
+				System.out.println("Ingrese la fecha de alquiler del libro");
+				System.out.println("Dia");
+				while (true)
+				{
+					//Validacion que permite el ingreso de solo numeros
+                    if (input.hasNextInt())
+                    {
+                        date = input.nextInt();
+                        //Condicional para que el numero sea del 1 al 31
+                        if (date >= 1 && date <= 31) 
+                        {
+                        	break;
+                        } else 
+                        {
+                        	//Mensaje de error
+                            System.out.println("Incorrecte, ingrese un numero del 1 al 31.");
+                        }
+                    }
+                    else
+                    {
+                    	//Mensaje de error
+                        System.out.println("Solo se permite ingresar numeros");
+                        //Limpia el buffer
+                        input.next();
+                    }
+                }
+				System.out.println("Mes");
+				while (true)
+				{
+					//Validacion que permite el ingreso de solo numeros
+                    if (input.hasNextInt())
+                    {
+                    	month = input.nextInt();
+                    	//Condicional para que el numero sea del 1 al 12
+                        if (month >= 1 && month <= 12) 
+                        {
+                        	break;
+                        } else 
+                        {
+                        	//Mensaje de error
+                            System.out.println("Incorrecto, ingrese un numero del 1 al 1.");
+                        }
+                    }
+                    else
+                    {
+                    	//Mensaje de error
+                        System.out.println("Solo se permito ingresar numeros");
+                        //Limpia el buffer
+                        input.next();
+                    }
+                }
+				System.out.println("Año");
+				while (true)
+				{
+					//Validacion que permite el ingreso de solo numeros
+                    if (input.hasNextInt())
+                    {
+                    	years = input.nextInt();
+                    	// Condicional para que el numero sea mayor o igual que 2024
+                        if (years >= 2024) 
+                        {
+                        	break;
+                        } else 
+                        {
+                        	//Mensaje de error
+                            System.out.println("Incorrecto, año mayor o igual a 2024.");
+                        }
+                    }
+                    else
+                    {
+                    	//Mensaje de error
+                        System.out.println("Solo se permite ingresar numeros");
+                        // Limpia el buffer
+                        input.next();
+                    }
+                }
+				//Permite manejar la escritura en el archivo
+				try
+                {
+					//Permite escribir en el archivo
+                    FileWriter archivo = new FileWriter("documento.txt", true);
+                    //Escribe el nombre del libro en el archivo
+                    archivo.write("Nombre del libro: " + nameBook + "\r\n");
+                    //Escribe el nombre y apellido del usuario en el archivo
+                    archivo.write("Nombre y Apellido: " + name + " " + lastName + "\r\n");
+                    //Escribe el número de cédula en el archivo
+                    archivo.write("Numero de cedula: " + idNum + "\r\n");
+                    //Escribe la fecha en el archivo
+                    archivo.write("Fecha: " + date + "/" + month + "/" + years + "\r\n");
+                    archivo.write("--------------------------------------------\r\n");
+                    //Cierra el archivo
+                    archivo.close();
+                    //Mensaje de confirmación
+                    System.out.println("El registro han sido guardado en un documento.txt");
+                }
+				//Caso de exepcion
+                catch (IOException e)
+                {
+                	//Mensaje de error
+                    System.out.println("Error al guardar en el archivo.");
+                }
+				break;
+			//Caso 2, salida del programa
+			case 2:
+				System.out.println("Gracias por utilizar este programa");
+				break;
+			//Opción por defecto para manejar una entrada incorrecta
+			default:
+				System.out.println("La opcion ingresada es incorrecta ");
+				System.out.println("Ingrese el numero 1 o 2");
+			}
+		}
+		//Condicional
+		while (option != 2);
+	}
+}
